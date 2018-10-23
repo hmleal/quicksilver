@@ -1,8 +1,10 @@
-HTTP_STATUS_CODE = {
-    200: "OK",
-    404: "Not Found",
-    500: "Internal Server Error",
-}
+from collections import namedtuple
+
+HTTP_STATUS_CODE = {200: "OK", 404: "Not Found", 500: "Internal Server Error"}
+
+
+Route = namedtuple("Route", ["path", "handler", "name"])
+
 
 class BaseResponse:
     def __init__(self, response=None, status=200):
