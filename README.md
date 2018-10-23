@@ -12,9 +12,19 @@ I've created this only to learn how to create a web framework from scratch.
 
 ```python
 from quicksilver import Application
+from quicksilver.http import BaseResponse as Response
+from quicksilver.http import Route
+
+def home():
+  return Response(b"home")
 
 
-app = Application()
+routes = (
+  Route("/", home, name="home"),
+)
+
+
+app = Application(routes=routes)
 
 
 if __name__ == "__main__":
