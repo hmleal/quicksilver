@@ -1,3 +1,5 @@
+import re
+
 from quicksilver.http import BaseResponse as Response
 
 
@@ -6,9 +8,12 @@ class Application:
         self.routes = routes
 
     def __call__(self, environ, start_response):
-        for r in self.routes:
-            if r.path == environ["PATH_INFO"]:
-                response = r.handler()
+        for route in self.routes:
+            route_match = re.match(route.pattern, environ["PATH_INFO"][1:])
+
+            if route_match:
+                response = route.handler(**route_match.groupdict())
+
                 return response(environ, start_response)
 
         response = Response(b"Page not Found", status=404)

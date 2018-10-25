@@ -1,9 +1,17 @@
-from collections import namedtuple
+HTTP_STATUS_CODE = {
+    200: "OK",
+    301: "Moved Permanently",
+    302: "Found",
+    404: "Not Found",
+    500: "Internal Server Error",
+}
 
-HTTP_STATUS_CODE = {200: "OK", 404: "Not Found", 500: "Internal Server Error"}
 
-
-Route = namedtuple("Route", ["path", "handler", "name"])
+class Route:
+    def __init__(self, pattern, handler, name=None):
+        self.pattern = pattern
+        self.handler = handler
+        self.name = name
 
 
 class BaseResponse:
@@ -22,4 +30,4 @@ class BaseResponse:
 
     @property
     def status_code(self):
-        return "{0} {1}".format(self.status, HTTP_STATUS_CODE[self.status])
+        return "{0} {1}".format(self.status, HTTP_STATUS_CODE[self.status].upper())
