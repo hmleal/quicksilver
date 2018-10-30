@@ -14,17 +14,28 @@ class Route:
         self.name = name
 
 
+class BaseRequest:
+    pass
+
+
 class BaseResponse:
-    def __init__(self, response=None, status=200):
-        if response is None:
-            self.response = []
+    # The default charset of the response
+    default_charset = "UTF-8"
+
+    def __init__(self, response, status=200, headers=None):
+        self.response = response
+        if isinstance(self.response, str):
+            self.response = response.encode(self.default_charset)
+
+        if headers is None:
+            self.headers = [("Content-Type", "text/plain")]
         else:
-            self.response = response
+            self.headers = headers
 
         self.status = status
 
     def __call__(self, environ, start_response):
-        start_response(self.status_code, [("Content-Type", "text/plain")])
+        start_response(self.status_code, self.headers)
 
         return [self.response]
 
