@@ -13,18 +13,18 @@ I've created this only to learn how to create a web framework from scratch.
 ### Example
 
 ```python
+
 from quicksilver import Application
 from quicksilver.http import BaseResponse as Response
 from quicksilver.http import Route
 
 
-def home():
-    return Response(b"home")
+def home(request):
+    return Response("method: {0}".format(request.method))
 
 
-def news(pk, slug):
-    msg = "Params: {}-{}".format(pk, slug)
-    return Response(msg.encode("UTF-8"))
+def news(request, pk, slug):
+    return Response("Params: {0} - {1}".format(pk, slug))
 
 
 routes = (
@@ -40,4 +40,5 @@ if __name__ == "__main__":
 
   server = make_server("127.0.0.1", 8000, app)
   server.serve_forever()
+
 ```

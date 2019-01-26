@@ -15,7 +15,12 @@ class Route:
 
 
 class BaseRequest:
-    pass
+    def __init__(self, environ):
+        self._environ = environ
+
+    @property
+    def method(self):
+        return self._environ["REQUEST_METHOD"]
 
 
 class BaseResponse:
